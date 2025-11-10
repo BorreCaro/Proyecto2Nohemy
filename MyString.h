@@ -11,7 +11,7 @@ void readline(char* str, int limit) {
     while (limit--) {
         char c = getchar();
         if (c == '\n') {
-            if (entercount == 2)
+            if (entercount == 1)
                 break;
             else
                 entercount++;
@@ -25,7 +25,7 @@ void readline(char* str, int limit) {
         else
             *str = '\0';
     } else
-        *(str - 2) = '\0';
+        *(str - 1) = '\0';
 }
 int strlen(const char* str) {
     const char* c = str;
