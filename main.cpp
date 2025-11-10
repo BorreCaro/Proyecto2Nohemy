@@ -3,8 +3,9 @@
 #include "MyString.h"
 using namespace std;
 int main() {
-    char oracion[50] = "hola como estas";
-    char original[50];
+    char oracion[5];
+    char original[5];
+    readline(oracion, 5);
     strcpy(original, oracion);
     strlwr(oracion);
     cout << oracion << endl;

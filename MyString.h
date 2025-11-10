@@ -1,7 +1,31 @@
 
 #ifndef MYSTRING_H
 #define MYSTRING_H
+#include <stdio.h>
+
 #include <cctype>
+void readline(char* str, int limit) {
+    int entercount = 0;
+    limit--;
+    while (limit--) {
+        char c = getchar();
+        if (c == '\n') {
+            if (entercount == 2)
+                break;
+            else
+                entercount++;
+        }
+        *str = c;
+        str++;
+    }
+    if (limit != 0) {
+        if (*(str - 1) == '\n')
+            *(str - 1) = '\0';
+        else
+            *str = '\0';
+    } else
+        *(str - 2) = '\0';
+}
 int strlen(const char* str) {
     const char* c = str;
     while (*c != '\0') c++;
