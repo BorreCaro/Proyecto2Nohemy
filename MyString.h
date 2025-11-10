@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include <cctype>
+
 void readline(char* str, int limit) {
     int entercount = 0;
     limit--;
@@ -31,6 +32,29 @@ int strlen(const char* str) {
     while (*c != '\0') c++;
     return c - str;
 }
+int strcmp(const char* str1, const char* str2) {
+    while (*str1 != '\0' || *str2 != '\0') {
+        if (*str1 != *str2) return *str1 - *str2;
+        str1++;
+        str2++;
+    }
+    return 0;
+}
+bool strchr(const char* str, char c) {
+    while (*str != '\0') {
+        if (*str == c) return true;
+    }
+    return false;
+}
+int contarVariosChar(const char* str, const char* caracteres) {
+    int num = 0;
+    while (*str != '\0') {
+        if (strchr(caracteres, *str)) num++;
+        str++;
+    }
+    return num;
+}
+
 void strcpy(char* dest, const char* ori) {
     while (*ori != '\0') {
         *dest = *ori;
