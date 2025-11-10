@@ -55,8 +55,8 @@ int contarVariosChar(const char* str, const char* caracteres) {
     return num;
 }
 
-void strcpy(char* dest, const char* ori) {
-    while (*ori != '\0') {
+void strcpy(char* dest, const char* ori, int limit = 500000) {
+    while (*ori != '\0' && limit-- > 1) {
         *dest = *ori;
         dest++;
         ori++;
