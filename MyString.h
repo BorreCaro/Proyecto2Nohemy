@@ -11,22 +11,16 @@ void readline(char* str, int limit) {
     while (limit--) {
         char c = getchar();
         if (c == '\n') {
-            if (entercount == 1)
+            entercount++;
+            if (entercount == 2)
                 break;
-            else
-                entercount++;
-        }
+        } else entercount=0;
         *str = c;
         str++;
     }
-    if (limit != 0) {
-        if (*(str - 1) == '\n')
-            *(str - 1) = '\0';
-        else
-            *str = '\0';
-    } else
-        *(str - 1) = '\0';
+    *(str - (entercount > 0 ? 1 : 0)) = '\0';
 }
+
 int strlen(const char* str) {
     const char* c = str;
     while (*c != '\0') c++;
