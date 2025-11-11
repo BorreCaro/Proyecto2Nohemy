@@ -3,6 +3,7 @@
 #define MYSTRING_H
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void readline(char* str, int limit) {
     int entercount = 0;
@@ -80,5 +81,23 @@ void strwupr(char* str) {
             *str = tolower(*str);
         str++;
     }
+}
+void safeReadInt(int& var, const int min, const int max, char msg[50], char errorMsg[50]) {
+    long long val = 0;
+    bool isNum;
+    do {
+        isNum = true;
+        char buffer[11];
+        printf("%s", msg);
+        fgets(buffer, 10, stdin);
+        for (int i = 0; buffer[i] != '\0'; i++) {
+            if (buffer[i] == '\n') break;
+            if (i == 0 && buffer[i] == '-') continue;
+            if (!isdigit(buffer[i])) isNum = false;
+        }
+        if (isNum) val = atoll(buffer);
+        if (val < min || val > max || !isNum) printf("%s\n", errorMsg);
+    } while (val < min || val > max || !isNum);
+    var = val;
 }
 #endif  // MYSTRING_H
