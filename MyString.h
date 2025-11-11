@@ -1,9 +1,8 @@
 
 #ifndef MYSTRING_H
 #define MYSTRING_H
+#include <ctype.h>
 #include <stdio.h>
-
-#include <cctype>
 
 void readline(char* str, int limit) {
     int entercount = 0;
