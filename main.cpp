@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "MyString.h"
+#include "structs.h"
 using namespace std;
 int main() {
     char oracion[1000];
