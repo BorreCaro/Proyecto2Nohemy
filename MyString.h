@@ -89,7 +89,7 @@ void safeReadInt(int& var, const int min, const int max, char msg[50], char erro
         isNum = true;
         char buffer[11];
         printf("%s", msg);
-        fgets(buffer, 10, stdin);
+        fgets(buffer, 11, stdin);
         for (int i = 0; buffer[i] != '\0'; i++) {
             if (buffer[i] == '\n') break;
             if (i == 0 && buffer[i] == '-') continue;
