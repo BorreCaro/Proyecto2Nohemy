@@ -12,9 +12,9 @@ void readline(char* str, int limit) {
         char c = getchar();
         if (c == '\n') {
             entercount++;
-            if (entercount == 2)
-                break;
-        } else entercount=0;
+            if (entercount == 2) break;
+        } else
+            entercount = 0;
         *str = c;
         str++;
     }
@@ -75,7 +75,7 @@ void strwupr(char* str) {
         if (word && isalpha(*str)) {
             *str = toupper(*str);
             word = false;
-        } else if (*str == ' ')
+        } else if (*str == ' ' || *str == '\t' || *str == '\n')
             word = true;
         else
             *str = tolower(*str);
