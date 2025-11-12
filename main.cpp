@@ -125,73 +125,48 @@ void modifyAuthor(Autor& author) {
     cin.getline(author.programa, 60);
     cout << "Actualizado.\n";
 }
+
 void actualizar() {
-    int type;
-    cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
-    bool re = true;
-    do {
-        cin >> type;
-        if (type == 1) {
-            re = false;
-            long long idnum;
-            cout << "ID autor: ";
-            do {
-                cin >> idnum;
-                if (existeAutor(idnum)) {
-                    Autor user = searchAutor(idnum);
-                    mostrarDatosAutor(user);
-                    char option;
-                    cout << "Deseas modificar algo? (S/N)" << endl;
-                    bool modify = false;
-                    do {
-                        cin >> option;
-                        if (tolower(option) == 'n') {
-                            cout << "Oka" << endl;
-                            return;
-                        } else if (tolower(option) == 's') {
-                            cout << "Que deseas modificar?" << endl;
-                            modifyAuthor(user);
-                            modify = true;
-                            break;
-                        } else {
-                            cout << "try again." << endl;
-                            break;
-                        }
-                    } while (modify);
-                }
-            } while (!existeAutor(idnum));
-        } else if (type == 2) {
-            long long idnum;
-            re = false;
-            do {
-                cin >> idnum;
-                if (existePublicacion(idnum)) {
-                    Publicacion pub = searchPub(idnum);
-                    mostrarDatosPub(pub);
-                    char option;
-                    cout << "Deseas modificar algo? (S/N)" << endl;
-                    bool modify = false;
-                    do {
-                        cin >> option;
-                        if (tolower(option) == 'n') {
-                            cout << "Oka" << endl;
-                            return;
-                        } else if (tolower(option) == 's') {
-                            cout << "Que deseas modificar?" << endl;
-                            modifyPub(pub);
-                            modify = true;
-                            break;
-                        } else {
-                            cout << "try again." << endl;
-                            break;
-                        }
-                    } while (modify);
-                }
-            } while (!existePublicacion(idnum));
-        } else {
-            cout << "try again." << endl;
+    while (true) {
+        int type;
+        cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
+        bool re = true;
+        safeReadInt(type, 1, 3, "Ingrese su eleccion: ", "Opcion invalida");
+        if (type == 3) return;
+
+        cout << ((type == 1) ? "ID autor: " : "ID publicacion: ");
+        long long idnum;
+        cin >> idnum;
+
+        bool existe = (type == 1) ? existeAutor(idnum) : existePublicacion(idnum);
+
+        if (!existe) {
+            cout << ((type == 1) ? "Autor no encontrado.\n" : "Publicacion no encontrada.\n");
+            continue;
         }
-    } while (re);
+
+        if (type == 1) {
+            Autor user = searchAutor(idnum);
+            mostrarDatosAutor(user);
+            cout << "¿Deseas modificar algo? (S/N): ";
+            char option;
+            cin >> option;
+            if (tolower(option) == 's')
+                modifyAuthor(user);
+            else
+                cout << "Okey\n";
+        } else {
+            Publicacion pub = searchPub(idnum);
+            mostrarDatosPub(pub);
+            cout << "¿Deseas modificar algo? (S/N): ";
+            char option;
+            cin >> option;
+            if (tolower(option) == 's')
+                modifyPub(pub);
+            else
+                cout << "Okey\n";
+        }
+    }
 }
 
 int main() {
@@ -203,7 +178,7 @@ int main() {
     int op;
     while (true) {
         cout << "\n1. Agregar autor\n2. Agregar publicacion\n3. Actualizar\n4. Mostrar\n6. Salir\n> ";
-        safeReadInt(op, 1, 6, "", "Opcion invalida");
+        safeReadInt(op, 1, 6, "Ingrese su eleccion: ", "Opcion invalida");
         switch (op) {
             case 1:
                 break;
@@ -220,6 +195,8 @@ int main() {
                 else
                     cout << "Esa ID no esta registrada";
                 break;
+            case 6:
+                return 0;
         }
     }
 }
