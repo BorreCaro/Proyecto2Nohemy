@@ -129,7 +129,6 @@ void modifyAuthor(Autor& author) {
 void actualizar() {
     int type;
     cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
-    bool re = true;
     safeReadInt(type, 1, 3, "Ingrese su eleccion: ", "Opcion invalida");
     if (type == 3) return;
     long long idnum;
@@ -185,6 +184,7 @@ int main() {
                 break;
             case 3:
                 actualizar();
+                break;
             case 4:
                 long long id;
                 cout << "ID de autor: ";
