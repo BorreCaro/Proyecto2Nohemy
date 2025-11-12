@@ -5,7 +5,6 @@
 using namespace std;
 long long cntAutor = 0;  // aurtores[cntAutor++]=newAuthor;
 Autor autores[100];
-Publicacion publicaciones[100];
 
 bool existePublicacion(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
@@ -18,31 +17,28 @@ bool existeAutor(long long idnum) {
         if (autores[i].id == idnum) return true;
     return false;
 }
-Autor searchAutor(long long idnum) {
+Autor* searchAutor(long long idnum) {
     for (int i = 0; i < cntAutor; i++) {
         if (autores[i].id == idnum)
-            return autores[i];
+            return &autores[i];
     }
-    Autor empty = {};
-    return empty;
+    return nullptr;
 }
 
-Autor searchAutorByPub(long long idnum) {
+Autor* searchAutorByPub(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
         for (int j = 0; j < autores[i].cntPubs; j++)
             if (autores[i].pubs[j].id == idnum)
-                return autores[i];
-    Autor empty = {};
-    return empty;
+                return &autores[i];
+    return nullptr;
 }
 
-Publicacion searchPub(long long idnum) {
+Publicacion* searchPub(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
         for (int j = 0; j < autores[i].cntPubs; j++)
             if (autores[i].pubs[j].id == idnum)
-                return autores[i].pubs[j];
-    Publicacion empty = {};
-    return empty;
+                return &autores[i].pubs[j];
+    return nullptr;
 }
 
 int puntosPorTipo(int t) {
@@ -63,25 +59,27 @@ int puntosPorPremio(const char* p) {
     return strcmp(p, "Ninguno") == 0 ? 0 : 10;
 }
 
-void mostrarDatosAutor(const Autor& author) {
-    cout << "\nID: " << author.id << endl;
-    cout << "Nombre: " << author.nombre << endl;
-    cout << "Correo: " << author.correo << endl;
-    cout << "Programa: " << author.programa << endl;
-    for (int i = 0; i < author.cntPubs; i++) {
+void mostrarDatosAutor(const Autor* author) {
+    cout << "\nID: " << author->id << endl;
+    cout << "Nombre: " << author->nombre << endl;
+    cout << "Correo: " << author->correo << endl;
+    cout << "Programa: " << author->programa << endl;
+    for (int i = 0; i < author->cntPubs; i++) {
         cout << "\nPublicacion #" << i + 1 << endl;
-        cout << "  ID: " << author.pubs[i].id << endl;
-        cout << "  Titulo: " << author.pubs[i].titulo << endl;
-        cout << "  Tipo: " << author.pubs[i].tipo << endl;
-        cout << "  Año: " << author.pubs[i].year << endl;
-        cout << "  Premio: " << author.pubs[i].premio << endl;
-        cout << "  Abstract: " << author.pubs[i].abstract << endl;
-        cout << "  Puntos base: " << author.pubs[i].puntosBase << endl;
-        cout << "  Puntos extra: " << author.pubs[i].puntosAdic << endl;
+        cout << "  ID: " << author->pubs[i].id << endl;
+        cout << "  Titulo: " << author->pubs[i].titulo << endl;
+        cout << "  Tipo: " << author->pubs[i].tipo << endl;
+        cout << "  Año: " << author->pubs[i].year << endl;
+        cout << "  Premio: " << author->pubs[i].premio << endl;
+        cout << "  Abstract: " << author->pubs[i].abstract << endl;
+        cout << "  Puntos base: " << author->pubs[i].puntosBase << endl;
+        cout << "  Puntos extra: " << author->pubs[i].puntosAdic << endl;
+        cout << "  Total: " << (author->pubs[i].puntosBase + author->pubs[i].puntosAdic) << endl;
     }
 }
+
 void mostrarDatosPub(const Publicacion& pp) {
-    Autor user = searchAutorByPub(pp.id);
+    Autor* user = searchAutorByPub(pp.id);
     cout << "\nTitulo: " << pp.titulo << endl;
     cout << "Tipo: " << pp.tipo << endl;
     cout << "Year: " << pp.year << endl;
@@ -90,39 +88,45 @@ void mostrarDatosPub(const Publicacion& pp) {
     cout << "Puntos base: " << pp.puntosBase << endl;
     cout << "Puntos extra: " << pp.puntosAdic << endl;
     cout << "Total puntaje: " << (pp.puntosBase + pp.puntosAdic) << endl;
-    cout << "\nAutor de la publicacion:\n";
-    cout << "ID autor: " << user.id << endl;
-    cout << "Nombre: " << user.nombre << endl;
-    cout << "Correo: " << user.correo << endl;
-    cout << "Programa: " << user.programa << endl;
+
+    if (user) {
+        cout << "\nAutor de la publicacion:\n";
+        cout << "ID autor: " << user->id << endl;
+        cout << "Nombre: " << user->nombre << endl;
+        cout << "Correo: " << user->correo << endl;
+        cout << "Programa: " << user->programa << endl;
+    } else {
+        cout << "\nAutor no encontrado.\n";
+    }
 }
-void modifyPub(Publicacion& pp) {
+
+void modifyPub(Publicacion* pp) {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Titulo (" << pp->titulo << "): ";
+    cin.getline(pp->titulo, 80);
+    cout << "Tipo (" << pp->tipo << "): ";
+    cin >> pp->tipo;
+    cout << "Año (" << pp->year << "): ";
+    cin >> pp->year;
     cin.ignore();
-    cout << "Titulo (" << pp.titulo << "): ";
-    cin.getline(pp.titulo, 80);
-    cout << "Tipo (" << pp.tipo << "): ";
-    cin >> pp.tipo;
-    cout << "Año (" << pp.year << "): ";
-    cin >> pp.year;
-    cin.ignore();
-    cout << "Premio (" << pp.premio << "): ";
-    cin.getline(pp.premio, 80);
-    pp.puntosBase = puntosPorTipo(pp.tipo);
-    pp.puntosAdic = puntosPorPremio(pp.premio);
-    cout << "New PuntosBase: " << pp.puntosBase << endl;
-    cout << "New PuntosAdic: " << pp.puntosAdic << endl;
-    cout << "Total: " << (pp.puntosBase + pp.puntosAdic) << endl;
+    cout << "Premio (" << pp->premio << "): ";
+    cin.getline(pp->premio, 80);
+    pp->puntosBase = puntosPorTipo(pp->tipo);
+    pp->puntosAdic = puntosPorPremio(pp->premio);
+    cout << "New PuntosBase: " << pp->puntosBase << endl;
+    cout << "New PuntosAdic: " << pp->puntosAdic << endl;
+    cout << "Total: " << (pp->puntosBase + pp->puntosAdic) << endl;
     cout << "Recalculado.\n";
 }
 
-void modifyAuthor(Autor& author) {
-    cin.ignore();
-    cout << "Nombre (" << author.nombre << "): ";
-    cin.getline(author.nombre, 60);
-    cout << "Correo (" << author.correo << "): ";
-    cin.getline(author.correo, 60);
-    cout << "Programa (" << author.programa << "): ";
-    cin.getline(author.programa, 60);
+void modifyAuthor(Autor* author) {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Nombre (" << author->nombre << "): ";
+    cin.getline(author->nombre, 60);
+    cout << "Correo (" << author->correo << "): ";
+    cin.getline(author->correo, 60);
+    cout << "Programa (" << author->programa << "): ";
+    cin.getline(author->programa, 60);
     cout << "Actualizado.\n";
 }
 
@@ -145,7 +149,11 @@ void actualizar() {
             break;
     }
     if (type == 1) {
-        Autor user = searchAutor(idnum);
+        Autor *user = searchAutor(idnum);
+        if (!user) {
+            cout << "Autor no encontrado.\n";
+            return;
+        }
         mostrarDatosAutor(user);
         cout << "¿Deseas modificar algo? (S/N): ";
         char option;
@@ -155,8 +163,12 @@ void actualizar() {
         else
             cout << "Okey\n";
     } else {
-        Publicacion pub = searchPub(idnum);
-        mostrarDatosPub(pub);
+        Publicacion* pub = searchPub(idnum);
+        if(!pub){
+            cout<<"Publicacion no encontrada."<<endl;
+            return;
+        }
+        mostrarDatosPub(*pub);
         cout << "¿Deseas modificar algo? (S/N): ";
         char option;
         cin >> option;
