@@ -82,7 +82,7 @@ void strwupr(char* str) {
         str++;
     }
 }
-void safeReadInt(int& var, const int min, const int max, char msg[50], char errorMsg[50]) {
+void safeReadInt(int& var, const int min, const int max, const char msg[50], const char errorMsg[50]) {
     long long val = 0;
     bool isNum;
     do {
