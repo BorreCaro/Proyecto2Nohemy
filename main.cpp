@@ -127,15 +127,14 @@ void modifyAuthor(Autor& author) {
 }
 
 void actualizar() {
+    int type;
+    cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
+    bool re = true;
+    safeReadInt(type, 1, 3, "Ingrese su eleccion: ", "Opcion invalida");
+    if (type == 3) return;
+    long long idnum;
     while (true) {
-        int type;
-        cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
-        bool re = true;
-        safeReadInt(type, 1, 3, "Ingrese su eleccion: ", "Opcion invalida");
-        if (type == 3) return;
-
         cout << ((type == 1) ? "ID autor: " : "ID publicacion: ");
-        long long idnum;
         cin >> idnum;
 
         bool existe = (type == 1) ? existeAutor(idnum) : existePublicacion(idnum);
@@ -143,29 +142,29 @@ void actualizar() {
         if (!existe) {
             cout << ((type == 1) ? "Autor no encontrado.\n" : "Publicacion no encontrada.\n");
             continue;
-        }
-
-        if (type == 1) {
-            Autor user = searchAutor(idnum);
-            mostrarDatosAutor(user);
-            cout << "¿Deseas modificar algo? (S/N): ";
-            char option;
-            cin >> option;
-            if (tolower(option) == 's')
-                modifyAuthor(user);
-            else
-                cout << "Okey\n";
-        } else {
-            Publicacion pub = searchPub(idnum);
-            mostrarDatosPub(pub);
-            cout << "¿Deseas modificar algo? (S/N): ";
-            char option;
-            cin >> option;
-            if (tolower(option) == 's')
-                modifyPub(pub);
-            else
-                cout << "Okey\n";
-        }
+        } else
+            break;
+    }
+    if (type == 1) {
+        Autor user = searchAutor(idnum);
+        mostrarDatosAutor(user);
+        cout << "¿Deseas modificar algo? (S/N): ";
+        char option;
+        cin >> option;
+        if (tolower(option) == 's')
+            modifyAuthor(user);
+        else
+            cout << "Okey\n";
+    } else {
+        Publicacion pub = searchPub(idnum);
+        mostrarDatosPub(pub);
+        cout << "¿Deseas modificar algo? (S/N): ";
+        char option;
+        cin >> option;
+        if (tolower(option) == 's')
+            modifyPub(pub);
+        else
+            cout << "Okey\n";
     }
 }
 

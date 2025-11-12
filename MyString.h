@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <iostream>
+
 void readline(char* str, int limit) {
     int entercount = 0;
     limit--;
@@ -89,6 +91,7 @@ void safeReadInt(int& var, const int min, const int max, const char msg[50], con
         isNum = true;
         char buffer[11];
         printf("%s", msg);
+        fflush(stdin);
         fgets(buffer, 11, stdin);
         for (int i = 0; buffer[i] != '\0'; i++) {
             if (buffer[i] == '\n') break;
