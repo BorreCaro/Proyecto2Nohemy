@@ -1,45 +1,29 @@
+#include <iostream>
+
 #include "MyString.h"
-#include<bits/stdc++.h>
+#include "structs.h"
 using namespace std;
- struct Publicacion {
-    long long id;
-    char titulo[100];
-    int tipo;
-    int year;
-    char premio[50];
-    char abstract[1000];
-    int puntosBase;
-    int puntosAdic;
-};
- struct Autor {
-    long long id;
-    char nombre[50];
-    char correo[50];
-    char programa[50];
-    Publicacion pubs[100]; 
-    int cntPubs=0;
-};
-long long cntAutor=0; //aurtores[cntAutor++]=newAuthor;
+long long cntAutor = 0;  // aurtores[cntAutor++]=newAuthor;
 Autor autores[100];
 Publicacion publicaciones[100];
 
-bool existePublicacion(long long idnum){
+bool existePublicacion(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
         for (int j = 0; j < autores[i].cntPubs; j++)
             if (autores[i].pubs[j].id == idnum) return true;
     return false;
 }
-bool existeAutor(long long idnum){
+bool existeAutor(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
         if (autores[i].id == idnum) return true;
     return false;
 }
-Autor searchAutor(long long idnum){
-    for(int i =0; i<cntAutor; i++){
-        if(autores[i].id == idnum) 
+Autor searchAutor(long long idnum) {
+    for (int i = 0; i < cntAutor; i++) {
+        if (autores[i].id == idnum)
             return autores[i];
     }
-    Autor empty={};
+    Autor empty = {};
     return empty;
 }
 
@@ -52,7 +36,7 @@ Autor searchAutorByPub(long long idnum) {
     return empty;
 }
 
-Publicacion searchPub(long long idnum){
+Publicacion searchPub(long long idnum) {
     for (int i = 0; i < cntAutor; i++)
         for (int j = 0; j < autores[i].cntPubs; j++)
             if (autores[i].pubs[j].id == idnum)
@@ -61,20 +45,25 @@ Publicacion searchPub(long long idnum){
     return empty;
 }
 
-int puntosPorTipo(int t){
-    switch(t){
-        case 1: return 50;
-        case 2: return 35;
-        case 3: return 30;
-        case 4: return 20;
-        default: return 10;
+int puntosPorTipo(int t) {
+    switch (t) {
+        case 1:
+            return 50;
+        case 2:
+            return 35;
+        case 3:
+            return 30;
+        case 4:
+            return 20;
+        default:
+            return 10;
     }
 }
-int puntosPorPremio(const char* p){
-    return strcmp(p, "Ninguno")==0 ? 0 : 10;
+int puntosPorPremio(const char* p) {
+    return strcmp(p, "Ninguno") == 0 ? 0 : 10;
 }
 
-void mostrarDatosAutor(const Autor &author) {
+void mostrarDatosAutor(const Autor& author) {
     cout << "\nID: " << author.id << endl;
     cout << "Nombre: " << author.nombre << endl;
     cout << "Correo: " << author.correo << endl;
@@ -91,7 +80,7 @@ void mostrarDatosAutor(const Autor &author) {
         cout << "  Puntos extra: " << author.pubs[i].puntosAdic << endl;
     }
 }
-void mostrarDatosPub(const Publicacion &pp) {
+void mostrarDatosPub(const Publicacion& pp) {
     Autor user = searchAutorByPub(pp.id);
     cout << "\nTitulo: " << pp.titulo << endl;
     cout << "Tipo: " << pp.tipo << endl;
@@ -107,13 +96,17 @@ void mostrarDatosPub(const Publicacion &pp) {
     cout << "Correo: " << user.correo << endl;
     cout << "Programa: " << user.programa << endl;
 }
-void modifyPub(Publicacion &pp) {
+void modifyPub(Publicacion& pp) {
     cin.ignore();
-    cout << "Titulo (" << pp.titulo << "): "; cin.getline(pp.titulo, 80);
-    cout << "Tipo (" << pp.tipo << "): "; cin >> pp.tipo;
-    cout << "Año (" << pp.year << "): "; cin >> pp.year;
+    cout << "Titulo (" << pp.titulo << "): ";
+    cin.getline(pp.titulo, 80);
+    cout << "Tipo (" << pp.tipo << "): ";
+    cin >> pp.tipo;
+    cout << "Año (" << pp.year << "): ";
+    cin >> pp.year;
     cin.ignore();
-    cout << "Premio (" << pp.premio << "): "; cin.getline(pp.premio, 80);
+    cout << "Premio (" << pp.premio << "): ";
+    cin.getline(pp.premio, 80);
     pp.puntosBase = puntosPorTipo(pp.tipo);
     pp.puntosAdic = puntosPorPremio(pp.premio);
     cout << "New PuntosBase: " << pp.puntosBase << endl;
@@ -122,102 +115,111 @@ void modifyPub(Publicacion &pp) {
     cout << "Recalculado.\n";
 }
 
-void modifyAuthor(Autor &author) {
+void modifyAuthor(Autor& author) {
     cin.ignore();
-    cout << "Nombre (" << author.nombre << "): "; cin.getline(author.nombre, 60);
-    cout << "Correo (" << author.correo << "): "; cin.getline(author.correo, 60);
-    cout << "Programa (" << author.programa << "): "; cin.getline(author.programa, 60);
+    cout << "Nombre (" << author.nombre << "): ";
+    cin.getline(author.nombre, 60);
+    cout << "Correo (" << author.correo << "): ";
+    cin.getline(author.correo, 60);
+    cout << "Programa (" << author.programa << "): ";
+    cin.getline(author.programa, 60);
     cout << "Actualizado.\n";
 }
-void actualizar(){
+void actualizar() {
     int type;
-    cout<<"1. Autor.\n2.Publicacion.\n3.Salir.\n";
-    bool re=true;
-    do{
-        cin>>type;
-        if(type==1){
+    cout << "1. Autor.\n2.Publicacion.\n3.Salir.\n";
+    bool re = true;
+    do {
+        cin >> type;
+        if (type == 1) {
             re = false;
-            long long idnum; 
-            cout<<"ID autor: ";
-            do{
-                cin>>idnum;
-                if(existeAutor(idnum)){
-                    Autor user=searchAutor(idnum);
+            long long idnum;
+            cout << "ID autor: ";
+            do {
+                cin >> idnum;
+                if (existeAutor(idnum)) {
+                    Autor user = searchAutor(idnum);
                     mostrarDatosAutor(user);
                     char option;
-                    cout<<"Deseas modificar algo? (S/N)"<<endl; 
-                    bool modify=false;
-                    do{
-                        cin>>option;
-                        if(tolower(option)=='n'){
-                            cout<<"Oka"<<endl;
+                    cout << "Deseas modificar algo? (S/N)" << endl;
+                    bool modify = false;
+                    do {
+                        cin >> option;
+                        if (tolower(option) == 'n') {
+                            cout << "Oka" << endl;
                             return;
-                        } else if(tolower(option)=='s'){
-                            cout<<"Que deseas modificar?"<<endl;
+                        } else if (tolower(option) == 's') {
+                            cout << "Que deseas modificar?" << endl;
                             modifyAuthor(user);
-                            modify=true;
+                            modify = true;
                             break;
                         } else {
-                            cout<<"try again."<<endl;
+                            cout << "try again." << endl;
                             break;
                         }
-                    } while(modify);
+                    } while (modify);
                 }
-            } while(!existeAutor(idnum));
-        }
-        else if(type==2){
-            long long idnum; 
+            } while (!existeAutor(idnum));
+        } else if (type == 2) {
+            long long idnum;
             re = false;
-            do{
-                cin>>idnum;
-                if(existePublicacion(idnum)){
-                    Publicacion pub=searchPub(idnum);
+            do {
+                cin >> idnum;
+                if (existePublicacion(idnum)) {
+                    Publicacion pub = searchPub(idnum);
                     mostrarDatosPub(pub);
                     char option;
-                    cout<<"Deseas modificar algo? (S/N)"<<endl; 
-                    bool modify=false;
-                    do{
-                        cin>>option;
-                        if(tolower(option)=='n'){
-                            cout<<"Oka"<<endl;
+                    cout << "Deseas modificar algo? (S/N)" << endl;
+                    bool modify = false;
+                    do {
+                        cin >> option;
+                        if (tolower(option) == 'n') {
+                            cout << "Oka" << endl;
                             return;
-                        } else if(tolower(option)=='s'){
-                            cout<<"Que deseas modificar?"<<endl;
+                        } else if (tolower(option) == 's') {
+                            cout << "Que deseas modificar?" << endl;
                             modifyPub(pub);
-                            modify=true;
+                            modify = true;
                             break;
                         } else {
-                            cout<<"try again."<<endl;
+                            cout << "try again." << endl;
                             break;
                         }
-                    } while(modify);
+                    } while (modify);
                 }
-            } while(!existePublicacion(idnum));
-        } 
-        else{
-            cout<<"try again."<<endl;
+            } while (!existePublicacion(idnum));
+        } else {
+            cout << "try again." << endl;
         }
-    } while(re);
+    } while (re);
 }
 
-int main(){
+int main() {
     Autor a1 = {1, "Carlos", "c@uni.edu", "Ingenieria"};
     Publicacion p1 = {101, "IA y Etica", 1, 2023, "Ninguno", "Sobre IA y moral", 50, 0};
     a1.pubs[a1.cntPubs++] = p1;
     autores[cntAutor++] = a1;
 
     int op;
-    do {
+    while (true) {
         cout << "\n1. Agregar autor\n2. Agregar publicacion\n3. Actualizar\n4. Mostrar\n6. Salir\n> ";
-        cin >> op;
-        if (op == 3) actualizar();
-        else if (op == 4) {
-            long long id;
-            cout << "ID de autor: ";
-            cin >> id;
-            if (existeAutor(id)) mostrarDatosAutor(searchAutor(id));
-            else cout << "No existe.\n";
+        safeReadInt(op, 1, 6, "", "Opcion invalida");
+        switch (op) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                actualizar();
+            case 4:
+                long long id;
+                cout << "ID de autor: ";
+                cin >> id;
+                if (existeAutor(id))
+                    mostrarDatosAutor(searchAutor(id));
+                else
+                    cout << "Esa ID no esta registrada";
+                break;
         }
-    } while (op != 6);
-
+    }
 }
