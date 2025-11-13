@@ -6,8 +6,6 @@
 using namespace std;
 long long cntAutor = 0;  // aurtores[cntAutor++]=newAuthor;
 Autor autores[100];
-Publicacion publicaciones[100];
-
 /*
 Tipos de premiacion
  Publicación en revista internacional indexada.
@@ -190,7 +188,6 @@ void actualizar() {
             system("pause");
         }
     }
-    system("pause");
 }
 void reportes(){
     system("cls");
@@ -284,7 +281,7 @@ void tipoPublicacionMasRegistros() {
         system("pause");
         return;
     }
-    const int MAX_TIPO = 5;
+    const int MAX_TIPO = 6;
     int conteo[MAX_TIPO] = {0};
     int puntosTotales[MAX_TIPO] = {0};
     int totalPubs = 0;
@@ -327,7 +324,6 @@ void estadisticas(){
     cout << "1. Listado Autores.\n2. Porcentajes de docentes por tipo de premiacion.\n3. Max/min puntaje\n4. Tipo de publicacion con mas registros\n5. Salir\n";
     safeReadInt(type, 1, 5, "Ingrese su eleccion: ", "Opcion invalida");
     if (type == 5) return;
-    long long idnum;
     while (true) {
     	if(type==1){
 	        for(int i =0; i<cntAutor; i++){
